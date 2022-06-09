@@ -89,7 +89,58 @@
 			
         
     </div>
+    <script>
+
+         function toster(type="success",feild="",action="Updated"){
+        // console.log("toster call ");
+        // alert("toster call");
+        if(feild.length > 0){
+            feild = feild.charAt(0).toUpperCase() + feild.slice(1);
+            if(feild == 'Firstname'){
+                feild = 'First Name';
+            }else if(feild == 'Lastname'){
+                feild = 'Last Name';
+            }else if(feild == 'Company_name'){
+                feild = 'Company Name';
+            }
+            
+        }
+        // var str = 'flexiple';
+        // var str2 = str.charAt(0).toUpperCase() + str.slice(1);
+        var messages = $('.messages');
+        var successHtml;
+             messages.show();
+           
+        
+        var alert = (action == "delete" || action == "deleted" || action == "danger") ? "danger" : "success";
+        //action = (action == "delete" || action == "deleted") ? "Deleted" : action;
+
+        if (type == "success") {
+
+            successHtml = '<div class="alert alert-'+alert+'">' +
+            '<strong>'+feild+' '+action+' Successfully.</strong></div>';
+            
+        } else if (type == "danger") {
+            if(feild.length > 0){
+                feild = 'in '+feild; 
+            }
+            successHtml = '<div class="alert alert-'+type+'">' +
+            '<strong>Something went Wrong! '+feild+'</strong></div>';
+        }else{
+            successHtml = '<div class="alert alert-'+alert+'">' +
+                '<strong>'+feild+' '+action+' Successfully.</strong></div>';
+        }
+        // $('#user-table').DataTable().ajax.reload();
+        $(messages).html(successHtml);
+        //$( messages ).focus();
+        setTimeout(function() {
+            $('#ajax-msg').fadeOut('fast');
+            // $('#ajax-msg')
+        }, 4000); // <-- time in milliseconds        
+    }         
+    </script>
     @include('layouts.mainLayout.js')
+    
 </body>
 
 </html>

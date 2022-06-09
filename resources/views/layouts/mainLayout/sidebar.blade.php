@@ -6,6 +6,9 @@
                 <i data-feather="airplay"></i>
                 <span> Dashboard </span>
             </a>
+          
+        </li>
+        <li>
             <a href="{{route('agentlist')}}">
                 <i data-feather="users"></i>
                 <span> Agents </span>

@@ -37,8 +37,12 @@ Route::middleware(['auth'])->group(function () {
      Route::get('/agentlist', [AgentController::class, 'agentlist'])->name('agentlist');     
      Route::get('/agentlistajax', [AgentController::class, 'agentlistajax']);
      Route::post('/agentlist_update_ajex', [AgentController::class, 'agentlist_update_ajex']);
-     Route::get('/agentedit/{id}', [AgentController::class, 'agentedit']);
 
+     Route::get('/agentedit/{id}', [AgentController::class, 'agentedit']);
+     Route::post('/agentedit_update_ajex', [AgentController::class, 'agentedit_update_ajex']);
+     Route::post('/agenteditbillplan_update_ajex', [AgentController::class, 'agenteditbillplan_update_ajex']);
+     Route::post('/addbillplan_ajex', [AgentController::class, 'addbillplan_ajex']);
+     
      Route::get('/agentcomission/{id}', [AgentController::class, 'agentcomission'])->name('agentcomission');
      Route::post('/agentcomissionajax/{id}', [AgentController::class, 'agentcomissionajax']);
      

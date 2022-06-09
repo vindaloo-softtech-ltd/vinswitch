@@ -22,6 +22,36 @@
             </div>
         </div> <!-- end card-body-->
     </div> <!-- end card-->
+    <!-- title table header start -->
+    <div class="card mb-2">
+        <div class="card-body mt-0 mb-0 pt-0 pb-0">
+            <div class="row align-items-center">
+                <div class="col-sm-4">
+                    <div class="d-flex align-items-start">
+                    <p class="mb-0 text-muted">Detail</p>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="text-center my-3 my-sm-01">
+                        <p class="mb-0 text-muted">Balance</p>
+                    </div>
+                </div>
+                <div class="col-sm-4">     
+                    
+                    <div class="text-center my-3 my-sm-01">
+                        <p class="mb-0 text-muted">Status</p>
+                    </div>
+                </div>
+                
+                <div class="col-sm-2">
+                    <div class="text-sm-end text-center mt-2 mt-sm-0">
+                        <p class="mb-0 text-muted">Action</p>
+                    </div>
+                </div> 
+            </div> 
+        </div>
+    </div> 
+    <!-- title table header end -->
     <span id="agentlistrow">
     @foreach($records as $record)
     <!-- fist element of list start-->
@@ -168,21 +198,25 @@ $(document).ready( function () {
                         method: "POST",
                         data:{id:id,columnindex:columnindex,value:value,"_token":"{{ csrf_token() }}"},
                         success: function(result){
+                            var feild;
                             if(result.status){
                                 if(columnindex == "status"){
                                     if(value == "INACTIVE" ){
                                         $("."+columnindex+id).removeClass("btn-danger").addClass("btn-success").html("Status : ACTIVE").attr("data-value","ACTIVE");
                                     }else if(value == "ACTIVE"){
                                         $("."+columnindex+id).removeClass("btn-success").addClass("btn-danger").html("Status : INACTIVE").attr("data-value","INACTIVE");
-                                    }     
+                                    }
+                                    feild = "Status";     
                                 }else if(columnindex == "suspended"){
                                     if(value == "NO"){
                                         $("."+columnindex+id).removeClass("btn-success").addClass("btn-danger").html("Suspended : YES").attr("data-value","YES");
                                     }else if(value == "YES"){
                                        $("."+columnindex+id).removeClass("btn-danger").addClass("btn-success").html("Suspended : NO").attr("data-value","NO");
 
-                                    }                                    
-                                }                               
+                                    }  
+                                    feild = "Suspended";                                   
+                                } 
+                                toster("success", feild, "updated");                              
                             }
                             loadMoreData(1,'update');
                         },         
@@ -212,6 +246,7 @@ $(document).ready( function () {
                         $(this).replaceWith(orignaltxt);                
                     }                
                 });
+                toster("success", columnindex, "Updated"); 
             },           
         });
     });
@@ -300,7 +335,7 @@ $(document).ready( function () {
         new Chartist.Bar("#distributed-series1",data,option);
         
     }
-    chart();
+    chart();  
 });
 </script>              
 @endsection
