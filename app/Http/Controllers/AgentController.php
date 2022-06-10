@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use DB;
 use Symfony\Component\HttpFoundation\Response;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\URL;
@@ -143,9 +144,11 @@ class AgentController extends Controller
 
         try {
             $User_Update = Agent::where("id", $id)->update($update);
-            if($User_Update)
-                return response()->json(["status" => "success", "data" => "Update Sucessfully ".$User_Update, "error" => 0]);
-            return response()->json(["status" => "success", "data" => "Something wrong", "error" => 0]);
+            if($User_Update){
+                return response()->json(["status" => "success", "data" => "Update Sucessfully ", "error" => 0]);
+            }
+                
+            return response()->json(["status" => "fail", "data" => "Something wrong", "error" => 0]);
         
         } catch (\Exception $e) {
             return response()->json(["status" => "fail", "data" => "Record not found", "error" => $e->getMessage()]);            
@@ -156,8 +159,30 @@ class AgentController extends Controller
     public function agentedit_update_ajex(Request $request){
         // return response()->json($request->all());
         $id = EncreptDecrept::decrept($request->id);
-        // dd( $id);
-        if($request->table == "agent"){       
+        // $id = $id[0];
+        $id = $id;
+
+        
+        if($request->table == "agent"){
+            
+            // $data = $request->only('firstname', 'lastname',);        
+            $validator = Validator::make($request->all(), [
+                'firstname' => 'required|min:3',
+                'lastname' => 'required|min:3',
+                'contact_no' => 'required|digits:10',
+                'address' => 'required|min:5',
+                'state' => 'required|min:2',
+                'city' => 'required|min:2',
+                'postal_code' => 'required|min:5',
+                'company_name' => 'required|min:3'             
+            ]);
+            if ($validator->fails()) {
+                $data_responce = ["status" => "danger", "data" => "Validation error","error" => $validator->messages()];
+                return response()->json($data_responce, 200);
+            }
+
+            // dd($request->all());  
+            // dd($id);    
             $update["firstname"] = $request->firstname;
             $update["lastname"] = $request->lastname;
             // $update["email"] = $request->email;
@@ -168,22 +193,35 @@ class AgentController extends Controller
             $update["city"] = $request->city;
             $update["postal_code"] = $request->postal_code;
             $update["company_name"] = $request->company_name;
+            // dd($update);
             $User_Update = Agent::where("id", $id)->update($update);
 
         }else if($request->table == "user"){
-            $update["firstname"] = $request->firstname;
-            $update["lastname"] = $request->lastname;
+
+            $validator = Validator::make($request->all(), [
+                'firstname_user' => 'required|min:3',
+                'lastname_user' => 'required|min:3',
+                'contact_no_user' => 'required|digits:10',                            
+            ]);
+            if ($validator->fails()) {
+                $data_responce = ["status" => "danger", "data" => "Validation error","error" => $validator->messages()];
+                return response()->json($data_responce, 200);
+            }
+
+            $update["firstname"] = $request->firstname_user;
+            $update["lastname"] = $request->lastname_user;
             // $update["email"] = $request->email;
-            $update["phoneno"] = $request->phoneno;
+            $update["phoneno"] = $request->contact_no_user;
             // dd($update);
             $User_Update = User::where('role','AGENT')->where("tenant_id", $id)->update($update);
 
         }
         try {
             
-            if($User_Update)
-                return response()->json(["status" => "success", "data" => "Update Sucessfully ".$User_Update, "error" => 0]);
-            return response()->json(["status" => "success", "data" => "Something wrong", "error" => 0]);
+            if($User_Update){
+                return response()->json(["status" => "success", "data" => "Update Sucessfully ", "error" => 0]);
+            }                
+            return response()->json(["status" => "fail", "data" => "Something wrong", "error" => 0]);
         
         } catch (\Exception $e) {
             return response()->json(["status" => "fail", "data" => "Record not found", "error" => $e->getMessage()]);            
@@ -238,17 +276,29 @@ class AgentController extends Controller
 
     // agentedit page 
     public function agentedit($id, Request $request){
-        $perpage = 2;
+        // dd($id);
+        $perpage = 3;
         $decrypted_id = EncreptDecrept::decrept($id);
-        $response['agent'] = Agent::find($decrypted_id)->first();
-        $response['user'] = User::where('tenant_id',$decrypted_id)->first();
-        $response['billplan'] = AgentBillplan::select('bill_plan.name', 'bill_plan.type','bill_plan.id as bill_plan_id', 'agent_billplan.id as agent_billplan_id', 'agent_billplan.commission')->where('agent_id',$decrypted_id)->leftjoin('bill_plan','bill_plan.id','agent_billplan.billplan_id')->paginate($perpage);
+        // $id = $decrypted_id[0];
+        $id = $decrypted_id;
+        $response['agent'] = Agent::where('id',$id)->first();
+        // dd($id);
+        // dd($response['agent']);
+        $response['user'] = User::where('tenant_id',$id)->first();
+        $response['billplan'] = AgentBillplan::select('bill_plan.name', 'bill_plan.type','bill_plan.id as bill_plan_id', 'agent_billplan.id as agent_billplan_id', 'agent_billplan.commission')->where('agent_id',$id)->leftjoin('bill_plan','bill_plan.id','agent_billplan.billplan_id')->where("agent_billplan.status","ACTIVE")->orderBy('agent_billplan.id', 'desc')->paginate($perpage);
         $response['billplan_list'] = BillPlan::get();
         $response['i'] = 1;
         if($request->ajax()){
+            // dd($id);
             $response_part['i'] = $perpage * ($request->page - 1);
+            if($request->addnewplan){
+                $response_part['inew'] = "addnewplan";
+                $response_part['i'] = 0;
+            }
+
             $response_part['page'] = 'agentedit_billing';
             $response_part['billplan'] = $response['billplan'];
+            // dd($id);
             $view = view('user.data', $response_part)->render();
             $response_ajex['html'] = $view;
            
@@ -268,8 +318,9 @@ class AgentController extends Controller
         // dd($id);
         try {
             $User_Update = AgentBillplan::where("id", $id)->update($update);
-            if($User_Update)
-                return response()->json(["status" => "success", "data" => "Update Sucessfully ".$User_Update, "error" => 0]);
+            if($User_Update){
+                return response()->json(["status" => "success", "data" => "Update Sucessfully ", "error" => 0]);
+            }                
             return response()->json(["status" => "success", "data" => "Something wrong", "error" => 0]);
         
         } catch (\Exception $e) {
@@ -283,41 +334,45 @@ class AgentController extends Controller
         $data = $request->only('billplan_id', 'commission');        
         $validator = Validator::make($data, [
             'billplan_id' => 'required',
-            'commission' => 'required',            
+            'commission' => 'required|digits_between:1,3',            
         ]);
         // dd($request->all());
         //Send failed response if request is not valid
 
         if ($validator->fails()) {
             $data_responce = ["status" => "danger", "data" => "Validation error","error" => $validator->messages()];
-            return response()->json($data_responce, 400);
+            return response()->json($data_responce, 200);
         }
         // dd($id);
-        $status = 'ACTIVE';
-        $newplan_data['agent_id'] = $id[0];
-        $newplan_data['billplan_id'] = $request->billplan_id;
-        $newplan_data['commission'] = $request->commission;
-        $newplan_data['status'] = $status;
-        // dd($newplan_data);
-        // $newplan = AgentBillplan::create($newplan_data);
+        $status = 'ACTIVE';        
         $newplan = new AgentBillplan();
-        $newplan->agent_id = $id[0];
+        // $newplan->agent_id = $id[0];
+        $newplan->agent_id = $id;
         $newplan->billplan_id = $request->billplan_id;
-        $newplan->commission = $request->commission;
+        $newplan->commission = (int)$request->commission;
         $newplan->status = $status;
-        if($newplan->save())
-            return response()->json(["status" => "success", "data" => "Update Sucessfully ".$newplan, "error" => 0]);
+        if($newplan->save()){
+            return response()->json(["status" => "success", "data" => "Update Sucessfully ", "error" => 0]);
+        }            
         return response()->json(["status" => "danger", "data" => "Somthing Wrong ", "error" => 0]);
         
 
     }
 
-    public function agentdelete($id){
-        $decrypted_id = EncreptDecrept::decrept($id);
-        $agent = Agent::find($decrypted_id);
-        // $agent-> 
-        $response['agent'] = $agent;
-        return view('user.agentedit',$response);        
+    public function deleteData($id,$table,Request $request){
+        $id = EncreptDecrept::decrept($id);
+        
+        $data['id'] = $id;
+        $data['table'] = $table;        
+        if($data['table'] == "agent_billplan"){
+            $update['status'] = 'INACTIVE';
+        }
+        $User_Update = DB::table($data['table'])->where('id',$data['id'])->update($update);        
+  
+        if($User_Update){
+            return response()->json(["status" => "success", "data" => "Record deleted sucessfully ".$User_Update, "error" => 0]);
+        }
+        return response()->json(["status" => "fail", "data" => "Somthing Wrong!", "error" => 0]);           
     }
 }
 

@@ -140,17 +140,21 @@
                 <div class="tab-content">
                     <div class="tab-pane" id="personal">
 
-                        <form>
+                        <form class="needs-validation1 was-validated1" novalidate>
                             <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle me-1"></i> Personal Info</h5>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
 
-                                        <label for="forfirstname" class="form-label">First Name</label>
+                                        <label for="forfirstname" class="form-label">a First Name</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
-                                            <input type="text" class="form-control" id="firstname" placeholder="First Name" value="{{$agent['firstname']}}">
+                                            <input type="text" class="form-control" id="firstname" placeholder="First Name" value="{{$agent['firstname']}}" minlength="3" required>
+                                            <div class="invalid-tooltip firstname">
+                                                Please Enter valid First Name.
+                                            </div>
                                         </div>
+                                        
                                     </div>
                                     
                                 </div>
@@ -159,7 +163,10 @@
                                         <label for="forlastname" class="form-label">Last Name</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
-                                            <input type="text" class="form-control" id="lastname" placeholder="Last Name" value="{{$agent['lastname']}}">
+                                            <input type="text" class="form-control" id="lastname" placeholder="Last Name" value="{{$agent['lastname']}}" minlength="3" required>
+                                            <div class="invalid-tooltip lastname">
+                                                Please Enter valid Last Name.
+                                            </div>
                                         </div>
                                     </div>
                                 </div> <!-- end col -->
@@ -172,6 +179,9 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                             <input type="text" class="form-control" id="email" placeholder="Email" value="{{$agent['email']}}" disabled readonly>
+                                            <div class="invalid-tooltip email">
+                                                Please Enter valid Last Name.
+                                            </div>
                                         </div>
                                     </div>
                                     
@@ -181,7 +191,10 @@
                                         <label for="forcontact_no" class="form-label">Phone</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa fa-phone"></i></span>
-                                            <input type="text" class="form-control" id="contact_no" placeholder="Phone" value="{{$agent['contact_no']}}">
+                                            <input type="text" class="form-control" id="contact_no" placeholder="Phone" value="{{$agent['contact_no']}}" minlength="10" required>
+                                            <div class="invalid-tooltip contact_no">
+                                                Please Enter valid Phone Number.
+                                            </div>
                                         </div>
                                     </div>
                                 </div> <!-- end col -->
@@ -194,7 +207,10 @@
                                         <label for="foraddress" class="form-label">Address</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-home"></i></span>
-                                            <textarea class="form-control" id="address" placeholder="Address">{{$agent['address']}}</textarea>
+                                            <textarea class="form-control" id="address" placeholder="Address">{{$agent['address']}}</textarea minlength="5" required>
+                                            <div class="invalid-tooltip address">
+                                                Please Enter valid Address.
+                                            </div>
                                         </div>
                                     </div>
                                     
@@ -211,6 +227,9 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa fa-city"></i></span>
                                             <input type="text" class="form-control" id="country" placeholder="Country" value="{{$agent['country']}}" disabled readonly>
+                                            <div class="invalid-tooltip country">
+                                                Please Enter valid Country.
+                                            </div>
                                         </div>
                                     </div>
                                     
@@ -220,7 +239,10 @@
                                         <label for="forstate" class="form-label">State</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
-                                            <input type="text" class="form-control" id="state" placeholder="State" value="{{$agent['state']}}">
+                                            <input type="text" class="form-control" id="state" placeholder="State" value="{{$agent['state']}}" minlength="2" required>
+                                            <div class="invalid-tooltip state">
+                                                Please Enter valid State.
+                                            </div>
                                         </div>
                                     </div>
                                     
@@ -234,7 +256,10 @@
                                         <label for="forcity" class="form-label">City</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa fa-map-signs"></i></span>
-                                            <input type="text" class="form-control" id="city" placeholder="City" value="{{$agent['city']}}">
+                                            <input type="text" class="form-control" id="city" placeholder="City" value="{{$agent['city']}}" minlength="2" required>
+                                            <div class="invalid-tooltip city">
+                                                Please Enter valid City.
+                                            </div>
                                         </div>
                                     </div>
                                     
@@ -244,7 +269,10 @@
                                         <label for="forzipcode" class="form-label">Zipcode</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa fa-qrcode"></i></span>
-                                            <input type="text" class="form-control" id="postal_code" placeholder="Zipcode" value="{{$agent['postal_code']}}">
+                                            <input type="text" class="form-control" id="postal_code" placeholder="Zipcode" value="{{$agent['postal_code']}}" minlength="6" required>
+                                            <div class="invalid-tooltip postal_code">
+                                                Please Enter valid Zipcode.
+                                            </div>
                                         </div>
                                     </div>
                                     
@@ -260,6 +288,9 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><i class=" far fa-building"></i></span>
                                             <input type="text" class="form-control" id="company_name" placeholder="Company Name" value="{{$agent['company_name']}}">
+                                            <div class="invalid-tooltip company_name">
+                                                Please Enter valid Company Name.
+                                            </div>
                                         </div>
                                     </div>
                                 </div>                                
@@ -287,6 +318,9 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
                                             <input type="text" class="form-control" id="firstname_user" placeholder="First Name" value="{{$user['firstname']}}">
+                                            <div class="invalid-tooltip firstname_user">
+                                                Please Enter valid First Name.
+                                            </div>
                                         </div>
                                     </div>
                                     
@@ -297,6 +331,9 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
                                             <input type="text" class="form-control" id="lastname_user" placeholder="Last Name" value="{{$user['lastname']}}">
+                                            <div class="invalid-tooltip lastname_user">
+                                                Please Enter valid Last Name.
+                                            </div>
                                         </div>
                                     </div>
                                 </div> <!-- end col -->
@@ -309,6 +346,9 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                             <input type="text" class="form-control" id="email_user" placeholder="Email" value="{{$user['email']}}" disabled readonly>
+                                            <div class="invalid-tooltip email_user">
+                                                Please Enter valid email.
+                                            </div>
                                         </div>
                                     </div>
                                     
@@ -319,6 +359,9 @@
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fa fa-phone"></i></span>
                                             <input type="text" class="form-control" id="contact_no_user" placeholder="Phone" value="{{$user['phoneno']}}">
+                                            <div class="invalid-tooltip contact_no_user">
+                                                Please Enter Phone Number.
+                                            </div>
                                         </div>
                                     </div>
                                 </div> <!-- end col -->
@@ -343,7 +386,8 @@
                     
                     <div class="tab-pane show active" id="bill">
                     <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle"></i> Plan Detail  <span class="waves-effect waves-light float-end bg-success rounded-circle" data-bs-toggle="modal" data-bs-target="#add-plan"><i class="fe-plus text-white h4"></i> </apan></h5>
-                        @if($billplan)
+                        @if($billplan)                       
+                        <input type="hidden" name="bill_plan" id="bill_plan" class="bill_plan" value="agent_billplan" />
                         <div class="table-responsive border-0">
                             <table class="table table-borderless mb-0 table-centered dt-responsive nowrap w-100">
                                 
@@ -367,12 +411,12 @@
                                     @php
                                         $id = App\Providers\EncreptDecrept::encrept($record['agent_billplan_id']);
                                     @endphp                                
-                                        <tr>
+                                        <tr id="billplanrow{{$id}}">
                                             <td>{{++$i}} </td>
                                             <td>{{$record['name']}}</td>
                                             <td>{{$record['type']}}</td>                                            
                                             <td> <span class="edit-inline-ajex" data-index="commission" data-id="{{$id}}">{{$record['commission']}}</span></td>
-                                            <td><a href="#" class="float-end text-danger"  title="Delete BillPlan" ><i class="fa fa-trash"></i></a></td>
+                                            <td><a class="float-end text-danger delete" data-id="{{$id}}" title="Delete BillPlan" ><i class="fa fa-trash"></i></a></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -402,17 +446,21 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                     </div>
                     <div class="modal-body p-4">
-                        <form>
+                        <form class="needs-validation1 was-validated1" >
                             <div class="mb-3">
+                                
                                 <label for="forbillplan_id" class="form-label">Bill Plan</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
-                                    <select class="form-control" name="billplan_id" id="billplan_id">
+                                    <select class="form-control" name="billplan_id" id="billplan_id" required>
                                         <option value="">Select</option>
                                         @foreach($billplan_list as $plan)
                                             <option value="{{$plan->id}}">{{$plan->name}}</option>
                                         @endforeach                                        
                                     </select>
+                                    <div class="invalid-tooltip billplan_id">
+                                        Please select valid Bill Plan.
+                                    </div>
                                     <!-- <input type="text" class="form-control" id="firstname" placeholder="First Name" value="{{$agent['firstname']}}"> -->
                                 </div>
                                 <!-- <input type="text" class="form-control" id="name" placeholder="Enter company name"> -->
@@ -421,7 +469,10 @@
                                 <label for="forcommission" class="form-label">Commission(%)</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-percentage"></i></span>
-                                    <input type="text" class="form-control" id="commission" placeholder="Enter Commission" value="">
+                                    <input type="text" class="form-control" id="commission" placeholder="Enter Commission" value="" required>
+                                    <div class="invalid-tooltip commission">
+                                        Please select valid Commission.
+                                    </div>
                                 </div>
                                 <!-- <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email"> -->
                             </div>
@@ -451,10 +502,9 @@ $(document).ready( function () {
     
     // update Information
     $("body").on("click", ".agentdatasubmit", function(){        
-       
-        console.log("id = "+id);
+    //   console.log("id = "+id);
         var formData = {
-            id:id,
+            id: id,
             firstname: $("#firstname").val(),
             lastname: $("#lastname").val(),
             email: $("#email").val(),
@@ -476,11 +526,26 @@ $(document).ready( function () {
             method: "POST",
             data:formData,
             success: function(result){
-                if(result.data != "fail"){
-                toster("success", "Record", "Updated"); 
+                var selector;
+                if(result.error !=0){                        
+                        $.each(result.error, function(index, value){         
+                                                       
+                            $('#'+index).addClass("border-danger").show();
+                            $('.'+index).html(value).show();
+                        });
+
                 }else{
-                toster("danger", "Record", "Failed");
+                    $(".border-danger").removeClass("border-danger");
+                    $(".invalid-tooltip").hide();
+                    if(result.status == 'danger' || result.status == 'fail'){
+                        toster("danger", "Record", "Failed");
+                    }else{
+                        toster("success", "Record", "Updated");
+                    }
+
                 }
+                
+               
                 
             },           
         });      
@@ -491,10 +556,10 @@ $(document).ready( function () {
     $("body").on("click", ".agentcredsubmit", function(){       
             var formData = {
                 id:id,
-                firstname: $("#firstname_user").val(),
-                lastname: $("#lastname_user").val(),
-                email: $("#email_user").val(),
-                phoneno: $("#contact_no_user").val(),               
+                firstname_user: $("#firstname_user").val(),
+                lastname_user: $("#lastname_user").val(),
+                email_user: $("#email_user").val(),
+                contact_no_user: $("#contact_no_user").val(),               
                 table: "user",
                 "_token":"{{ csrf_token() }}"
             };            
@@ -506,11 +571,24 @@ $(document).ready( function () {
                 method: "POST",
                 data:formData,
                 success: function(result){
-                   if(result.data != "fail"){
-                    toster("success", "Record", "Updated"); 
-                   }else{
-                    toster("danger", "Record", "Failed");
-                   }
+                    if(result.error !=0){
+                        $.each(result.error, function(index, value){         
+                            $('#'+index).addClass("border-danger").show();
+                            $('.'+index).html(value).show();
+                        });
+
+                    }else{
+                        $(".border-danger").removeClass("border-danger");
+                        $(".invalid-tooltip").hide();
+                        if(result.status == 'danger' || result.data == "fail"){
+                        toster("danger", "Record", "Failed");                     
+                        }else{
+                                toster("success", "Record", "Updated");                    
+                        }
+
+                    }
+                    
+                  
                     
                 },           
             });        
@@ -519,8 +597,14 @@ $(document).ready( function () {
     // load data function     
     function loadMoreData(page,update='')
     {
+        id = $('#id').val();
         search = $('#search').val() ? $('#search').val() : '';
         url = base_url+'/agentedit/' + id + '?page=' + page + '&search=' + search;
+        if(update == 'addnewplan'){
+            url = base_url+'/agentedit/' + id + '?addnewplan=addnewplan';
+        }else if(update != ''){
+            url = base_url+'/agentedit/' + id + '?page=1';
+        }
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -533,13 +617,22 @@ $(document).ready( function () {
             }
         })
         .done(function(data){
+            // console.log("done =",url);
             if(data.html == ""){
+                console.log("No more Plan Found!");
                 $('.loding').html("No more Plan Found!");
                 return;
             }
             $('.loding').hide();
-            if(!update){
+            if(update == 'addnewplan'){
+                $(".planlistrow").html("");
                 $(".planlistrow").append(data.html);
+            }else if(!update){ 
+                console.log("no update value");
+                $(".planlistrow").append(data.html);
+            }else{
+                console.log("update value");
+                $(".planlistrow").html("");
             }
             
         })
@@ -556,7 +649,7 @@ $(document).ready( function () {
             if($(window).scrollTop() + $(window).height() >= $(document).height()){                
                 // alert(page);                
                 page++;
-                console.log("scroll page :"+page);
+                // console.log("scroll page :"+page);
                 loadMoreData(page);
                 
             }
@@ -583,7 +676,7 @@ $(document).ready( function () {
 
      // update editabel textbox value ajex
      $('body').on('change', '.edit-column', function() {  
-        //  alert("asdf ads");       
+         alert("asdf ads");       
         var id = $(this).data("id");
         var columnindex = $(this).data("index");
         var value = $(this).val();
@@ -603,7 +696,23 @@ $(document).ready( function () {
                         $(this).replaceWith(orignaltxt);                
                     }                
                 });
-                toster("success", columnindex, "Updated"); 
+                if(result.error !=0){
+                    var error_validation = result.error;
+                    // alert(result.error);
+                    // $.each(result.error, function(index, value){
+                    //     alert(index+" = "+value);
+                    // });
+
+                }else{
+                    if(result.status == 'danger' || result.status == 'fail'){
+                        toster("danger", columnindex, "Updat Fail");
+                    }else{
+                        toster("success", columnindex, "Updated");
+                    } 
+
+                }
+                
+                 
             },           
         });
     });
@@ -623,14 +732,79 @@ $(document).ready( function () {
             method: "POST",
             data:{id:id,billplan_id:billplan_id,commission:commission,"_token":"{{ csrf_token() }}"},
             success: function(result){
-                              
-                toster("success", columnindex, "Updated"); 
+                if(result.error !=0){
+                    $.each(result.error, function(index, value){         
+                        $(document).find('#'+index).addClass("border-danger").show();
+                        $(document).find('.'+index).html(value).show();
+                    });
+
+                }else{
+                        $(".border-danger").removeClass("border-danger");
+                        $(".invalid-tooltip").hide();
+                    if(result.status == 'danger' || result.status == 'fail'){
+                        toster("danger", "New Plan", "Added Failed");
+                    }else{
+                        toster("success", "New Plan", "Added");
+                    }             
+                    
+                    $('.btn-close').click();
+                    loadMoreData("",update='addnewplan');
+                    page=1;
+
+                }
+                
+                
+                
+                
             },           
+        });
+    })
+    // clear model deta
+    $("#add-plan").on("hidden.bs.modal", function() {
+        $("#billplan_id").val("");
+        $("#commission").val("");
+    });
+
+    // delete bill plan ajex
+    $("body").on("click", ".delete", function(){ 
+        id =$(this).data('id');
+        console.log("delete id = "+id);
+    Swal.fire({
+            title: "Are you sure?",
+            text: "You want Delete ",
+            icon: "warning",
+            showCancelButton: !0,
+            confirmButtonText: "Yes",
+            cancelButtonText: "No, cancel!",
+            confirmButtonClass: "btn btn-success mt-2",
+            cancelButtonClass: "btn btn-danger ms-2 mt-2",
+            buttonsStyling: !1
+        }).then(function(e) {
+            if(e.isConfirmed){
+                
+                var table =$('#bill_plan').val();        
+                var url = base_url+'/delete/'+id+'/'+table;
+                
+                $.ajax({            
+                    url: url,
+                    method: "GET"                       
+                }).done(function(data){
+                    if(data.status == 'danger' || data.status == 'fail')
+                    {
+                        toster("danger", '', "Fail");                
+                    }else{                
+                        toster("success", 'Plan', "Deleted");
+                        $("#billplanrow"+id).remove();                 
+                    }
+                });
+            }
         });
     });
 
+    // Information form validation
+    // function information_validation(){
 
-
+    // }
 
 });
 </script>               

@@ -51,12 +51,13 @@
         @php
             $id = App\Providers\EncreptDecrept::encrept($record['agent_billplan_id']);
         @endphp                                
-        <tr>
+        <tr id="billplanrow{{$id}}">
+            
             <td>{{++$i}} </td>
             <td>{{$record['name']}}</td>
             <td>{{$record['type']}}</td>                                            
             <td> <span class="edit-inline-ajex" data-index="commission" data-id="{{$id}}">{{$record['commission']}}</span></td>
-            <td><a href="#" class="float-end text-danger"  title="Delete BillPlan" ><i class="fa fa-trash"></i></a></td>
+            <td><a class="float-end text-danger delete" data-id="{{$id}}" title="Delete BillPlan" ><i class="fa fa-trash"></i></a></td>
         </tr>
     @endforeach
 @endif

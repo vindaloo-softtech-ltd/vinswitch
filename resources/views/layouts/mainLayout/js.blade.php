@@ -57,3 +57,8 @@
 <!-- Table editable init-->
 <!-- <script src="{{ asset('')}}assets/js/pages/tabledit.init.js"></script> -->
 
+ <!-- Plugin js-->
+ <script src="{{ asset('')}}assets/libs/parsleyjs/parsley.min.js"></script>
+
+<!-- Validation init js-->
+<!-- <script src="{{ asset('')}}assets/js/pages/form-validation.init.js"></script> -->
