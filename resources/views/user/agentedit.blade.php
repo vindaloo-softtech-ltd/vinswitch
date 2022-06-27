@@ -6,31 +6,30 @@
 <div class="row">
     <div class="col-lg-3 col-xl-3">
         <div class="card text-center">
-            <div class="card-body">
-                <img src="{{ asset('')}}assets/images/users/user-1.jpg" class="rounded-circle avatar-lg img-thumbnail"
-                alt="profile-image">
+            <div class="card-body ">
+            <i class="fa fa-user-secret h1 rounded-circle img-thumbnail1" ></i>
+                <!-- <img src="{{ asset('')}}assets/images/users/user-1.jpg" class="rounded-circle avatar-lg img-thumbnail" -->
+                <!-- alt="profile-image"> -->
 
-                <h4 class="mb-0">Geneva McKnight</h4>
-                <p class="text-muted">@webdesigner</p>
+                <h4 class="mb-0">{{$agent['firstname']}} {{$agent['lastname']}}</h4>
+                <p class="text-muted">{{$agent['company_name']}}</p>
 
-                <button type="button" class="btn btn-success btn-xs waves-effect mb-2 waves-light">Follow</button>
-                <button type="button" class="btn btn-danger btn-xs waves-effect mb-2 waves-light">Message</button>
+                <!-- <button type="button" class="btn btn-success btn-xs waves-effect mb-2 waves-light">Follow</button>
+                <button type="button" class="btn btn-danger btn-xs waves-effect mb-2 waves-light">Message</button> -->
 
                 <div class="text-start mt-3">
                     <h4 class="font-13 text-uppercase">About Me :</h4>
-                    <p class="text-muted font-13 mb-3">
-                        Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
-                    </p>
-                    <p class="text-muted mb-2 font-13"><strong>Full Name :</strong> <span class="ms-2">Geneva D. McKnight</span></p>
+                    
+                    <p class="text-muted mb-2 font-13"><strong>Full Name :</strong> <span class="ms-2">{{$agent['firstname']}} {{$agent['lastname']}}</span></p>
                 
-                    <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ms-2">(123) 123 1234</span></p>
+                    <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ms-2">{{$agent['contact_no']}}</span></p>
                 
-                    <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span class="ms-2">user@email.domain</span></p>
+                    <p class="text-muted font-13"><strong>Address :</strong><span class="ms-2">{{$agent['address']}} </span></p>
                 
-                    <p class="text-muted mb-1 font-13"><strong>Location :</strong> <span class="ms-2">USA</span></p>
+                    <p class="text-muted mb-1 font-13"><strong>Location :</strong> <span class="ms-2">{{$agent['country']}}</span></p>
                 </div>                                    
 
-                <ul class="social-list list-inline mt-3 mb-0">
+                <!-- <ul class="social-list list-inline mt-3 mb-0">
                     <li class="list-inline-item">
                         <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i class="mdi mdi-facebook"></i></a>
                     </li>
@@ -43,7 +42,7 @@
                     <li class="list-inline-item">
                         <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github"></i></a>
                     </li>
-                </ul>   
+                </ul>    -->
             </div>                                 
         </div> <!-- end card -->
 
@@ -139,14 +138,14 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane" id="personal">
-
+                        @if($agent)
                         <form class="needs-validation1 was-validated1" novalidate>
                             <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle me-1"></i> Personal Info</h5>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
 
-                                        <label for="forfirstname" class="form-label">a First Name</label>
+                                        <label for="forfirstname" class="form-label">First Name</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
                                             <input type="text" class="form-control" id="firstname" placeholder="First Name" value="{{$agent['firstname']}}" minlength="3" required>
@@ -301,15 +300,15 @@
                                 <span class="btn btn-success waves-effect waves-light mt-2 agentdatasubmit"><i class="mdi mdi-content-save"></i> Update</span>
                             </div>
                         </form>
-
+                        @endif
                     </div> <!-- end tab-pane -->
-                    <!-- end about me section content -->
+                    <!-- end Information section content -->
 
                     <div class="tab-pane" id="cred">
-
-                        <!-- comment box -->
+                        @if($user)
+                        <!-- cred box -->
                         <form>
-                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle me-1"></i> Personal Info</h5>
+                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle me-1"></i> Credential</h5>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -377,57 +376,74 @@
                                 <span class="btn btn-success waves-effect waves-light mt-2 agentcredsubmit"><i class="mdi mdi-content-save"></i> Update</span>
                             </div>
                         </form>
-
-                        <!-- end comment box -->
-
-                       
-                    </div>
-                    <!-- end timeline content-->
-                    
-                    <div class="tab-pane show active" id="bill">
-                    <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle"></i> Plan Detail  <span class="waves-effect waves-light float-end bg-success rounded-circle" data-bs-toggle="modal" data-bs-target="#add-plan"><i class="fe-plus text-white h4"></i> </apan></h5>
-                        @if($billplan)                       
-                        <input type="hidden" name="bill_plan" id="bill_plan" class="bill_plan" value="agent_billplan" />
-                        <div class="table-responsive border-0">
-                            <table class="table table-borderless mb-0 table-centered dt-responsive nowrap w-100">
-                                
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                        <th>Commission(%)</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="planlistrow">
-                                    <?php
-                                        // echo "<pre>";
-                                        // print_r(count($billplan));
-                                        // echo "</pre>";
-                                        $i=0;
-                                    ?>
-                                    @foreach($billplan as $record)
-                                    @php
-                                        $id = App\Providers\EncreptDecrept::encrept($record['agent_billplan_id']);
-                                    @endphp                                
-                                        <tr id="billplanrow{{$id}}">
-                                            <td>{{++$i}} </td>
-                                            <td>{{$record['name']}}</td>
-                                            <td>{{$record['type']}}</td>                                            
-                                            <td> <span class="edit-inline-ajex" data-index="commission" data-id="{{$id}}">{{$record['commission']}}</span></td>
-                                            <td><a class="float-end text-danger delete" data-id="{{$id}}" title="Delete BillPlan" ><i class="fa fa-trash"></i></a></td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <div class="text-center my-4">
-                                <a href="javascript:void(0);" class="text-danger loding" style="display:none"><i class="mdi mdi-spin mdi-loading me-1"></i> Load more </a>
+                        <!-- end cred box -->
+                        @else
+                        <form>
+                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle me-1"></i> Credential</h5>
+                            <div align="center">
+                                No Credential found.
                             </div>
-                        </div>                        
+
+                        </form>
                         @endif
                     </div>
-                    <!-- end settings content-->
+                    <!-- end Credential content-->
+                    
+                    <div class="tab-pane show active" id="bill">
+                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle"></i> Plan Detail  <span class="waves-effect waves-light float-end bg-primary rounded-circle" data-bs-toggle="modal" data-bs-target="#add-plan"><i class="fe-plus text-white h4"></i> </apan></h5>
+                        
+                        @if($billplan)
+                            @if(count($billplan) > 0)                       
+                                <input type="hidden" name="bill_plan" id="bill_plan" class="bill_plan" value="agent_billplan" />
+                                <div class="table-responsive border-0">
+                                    <table class="table table-borderless mb-0 table-centered dt-responsive nowrap w-100">
+                                        
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Name</th>
+                                                <th>Type</th>
+                                                <th>Commission(%)</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="planlistrow">
+                                            <?php
+                                                // echo "<pre>";
+                                                // print_r(count($billplan));
+                                                // echo "</pre>";
+                                                $i=0;
+                                            ?>
+                                            @foreach($billplan as $record)
+                                            @php
+                                                $id = App\Providers\EncreptDecrept::encrept($record['agent_billplan_id']);
+                                            @endphp                                
+                                                <tr id="billplanrow{{$id}}">
+                                                    <td>{{++$i}} </td>
+                                                    <td>{{$record['name']}}</td>
+                                                    <td>{{$record['type']}}</td>                                            
+                                                    <td> <span class="edit-inline-ajex" data-index="commission" data-id="{{$id}}">{{$record['commission']}}</span></td>
+                                                    <td><a class="float-end text-danger delete" data-id="{{$id}}" title="Delete BillPlan" ><i class="fa fa-trash"></i></a></td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <div class="text-center my-4">
+                                        <a href="javascript:void(0);" class="text-danger loding" style="display:none"><i class="mdi mdi-spin mdi-loading me-1"></i> Load more </a>
+                                    </div>
+                                </div>
+                            @else
+                                <div align="center">
+                                    No Plan found.
+                                </div>
+                            @endif 
+                        @else
+                            <div align="center">
+                                No Plan found.
+                            </div>                       
+                        @endif
+                    </div>
+                    <!-- end Bill plan content-->
 
                 </div> <!-- end tab-content -->
             </div>
@@ -439,54 +455,54 @@
 
 <!-- Modal -->
 <div class="modal fade" id="add-plan" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-light">
-                        <h4 class="modal-title" id="myCenterModalLabel">Add New Billplan</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h4 class="modal-title" id="myCenterModalLabel">Add New Billplan</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form class="needs-validation1 was-validated1" >
+                    <div class="mb-3">
+                        
+                        <label for="forbillplan_id" class="form-label">Bill Plan</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
+                            <select class="form-control" name="billplan_id" id="billplan_id" required>
+                                <option value="">Select</option>
+                                @foreach($billplan_list as $plan)
+                                    <option value="{{$plan->id}}">{{$plan->name}}</option>
+                                @endforeach                                        
+                            </select>
+                            <div class="invalid-tooltip billplan_id">
+                                Please select valid Bill Plan.
+                            </div>
+                            <!-- <input type="text" class="form-control" id="firstname" placeholder="First Name" value="{{$agent['firstname']}}"> -->
+                        </div>
+                        <!-- <input type="text" class="form-control" id="name" placeholder="Enter company name"> -->
                     </div>
-                    <div class="modal-body p-4">
-                        <form class="needs-validation1 was-validated1" >
-                            <div class="mb-3">
-                                
-                                <label for="forbillplan_id" class="form-label">Bill Plan</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
-                                    <select class="form-control" name="billplan_id" id="billplan_id" required>
-                                        <option value="">Select</option>
-                                        @foreach($billplan_list as $plan)
-                                            <option value="{{$plan->id}}">{{$plan->name}}</option>
-                                        @endforeach                                        
-                                    </select>
-                                    <div class="invalid-tooltip billplan_id">
-                                        Please select valid Bill Plan.
-                                    </div>
-                                    <!-- <input type="text" class="form-control" id="firstname" placeholder="First Name" value="{{$agent['firstname']}}"> -->
-                                </div>
-                                <!-- <input type="text" class="form-control" id="name" placeholder="Enter company name"> -->
+                    <div class="mb-3">
+                        <label for="forcommission" class="form-label">Commission(%)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-percentage"></i></span>
+                            <input type="text" class="form-control" id="commission" placeholder="Enter Commission" value="" required>
+                            <div class="invalid-tooltip commission">
+                                Please select valid Commission.
                             </div>
-                            <div class="mb-3">
-                                <label for="forcommission" class="form-label">Commission(%)</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-percentage"></i></span>
-                                    <input type="text" class="form-control" id="commission" placeholder="Enter Commission" value="" required>
-                                    <div class="invalid-tooltip commission">
-                                        Please select valid Commission.
-                                    </div>
-                                </div>
-                                <!-- <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email"> -->
-                            </div>
-                            
-        
-                            <div class="text-end">
-                                <button type="button" class="btn btn-success waves-effect waves-light add-plan-submit">Save</button>
-                                <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-dismiss="modal">Continue</button>
-                            </div>
-                        </form>
+                        </div>
+                        <!-- <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email"> -->
                     </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+                    
+
+                    <div class="text-end">
+                        <button type="button" class="btn btn-success waves-effect waves-light add-plan-submit">Save</button>
+                        <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-dismiss="modal">Continue</button>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 
@@ -527,6 +543,8 @@ $(document).ready( function () {
             data:formData,
             success: function(result){
                 var selector;
+                $(".border-danger").removeClass("border-danger");
+                $(".invalid-tooltip").hide();
                 if(result.error !=0){                        
                         $.each(result.error, function(index, value){         
                                                        
@@ -538,15 +556,18 @@ $(document).ready( function () {
                     $(".border-danger").removeClass("border-danger");
                     $(".invalid-tooltip").hide();
                     if(result.status == 'danger' || result.status == 'fail'){
-                        toster("danger", "Record", "Failed");
+                        if(result.data == "Record not exist"){
+                            toster("danger", "", "","Record not found");
+                        }else{
+                            toster("danger", "Record", "Failed");
+                        }
+                        
+                        
                     }else{
                         toster("success", "Record", "Updated");
                     }
 
-                }
-                
-               
-                
+                }              
             },           
         });      
         
@@ -571,17 +592,22 @@ $(document).ready( function () {
                 method: "POST",
                 data:formData,
                 success: function(result){
+                    $(".border-danger").removeClass("border-danger");
+                    $(".invalid-tooltip").hide();
                     if(result.error !=0){
                         $.each(result.error, function(index, value){         
                             $('#'+index).addClass("border-danger").show();
                             $('.'+index).html(value).show();
                         });
 
-                    }else{
-                        $(".border-danger").removeClass("border-danger");
-                        $(".invalid-tooltip").hide();
+                    }else{                        
                         if(result.status == 'danger' || result.data == "fail"){
-                        toster("danger", "Record", "Failed");                     
+                            if(result.data == "Record not exist"){
+                                toster("danger", "", "","Record not found");
+                            }else{
+                                toster("danger", "Record", "Failed");
+                            }
+                            
                         }else{
                                 toster("success", "Record", "Updated");                    
                         }
@@ -732,6 +758,8 @@ $(document).ready( function () {
             method: "POST",
             data:{id:id,billplan_id:billplan_id,commission:commission,"_token":"{{ csrf_token() }}"},
             success: function(result){
+                $(".border-danger").removeClass("border-danger");
+                $(".invalid-tooltip").hide();
                 if(result.error !=0){
                     $.each(result.error, function(index, value){         
                         $(document).find('#'+index).addClass("border-danger").show();
@@ -739,8 +767,7 @@ $(document).ready( function () {
                     });
 
                 }else{
-                        $(".border-danger").removeClass("border-danger");
-                        $(".invalid-tooltip").hide();
+                       
                     if(result.status == 'danger' || result.status == 'fail'){
                         toster("danger", "New Plan", "Added Failed");
                     }else{
@@ -769,7 +796,7 @@ $(document).ready( function () {
     $("body").on("click", ".delete", function(){ 
         id =$(this).data('id');
         console.log("delete id = "+id);
-    Swal.fire({
+        Swal.fire({
             title: "Are you sure?",
             text: "You want Delete ",
             icon: "warning",
@@ -791,7 +818,16 @@ $(document).ready( function () {
                 }).done(function(data){
                     if(data.status == 'danger' || data.status == 'fail')
                     {
-                        toster("danger", '', "Fail");                
+                        alert("data "+data.data);
+                        if(data.data == "Record not exist"){
+                            alert("here");
+                            toster("danger", "", "","Record not found");
+                            setTimeout( function(){ 
+                                location.reload();
+                            }  , 3000 );
+                        }else{
+                            toster("danger", '', "Fail");
+                        }                                        
                     }else{                
                         toster("success", 'Plan', "Deleted");
                         $("#billplanrow"+id).remove();                 

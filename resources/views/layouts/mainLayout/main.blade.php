@@ -91,11 +91,12 @@
     </div>
     <script>
 
-         function toster(type="success",feild="",action="Updated"){
-        // console.log("toster call ");
-        // alert("toster call");
-        if(feild.length > 0){
-            feild = feild.charAt(0).toUpperCase() + feild.slice(1);
+         function toster(type="success",feild="",action="Updated",custom_message=""){
+            // console.log("toster call ");
+            // alert("toster call");
+            
+            if(feild.length > 0){
+                feild = feild.charAt(0).toUpperCase() + feild.slice(1);
             if(feild == 'Firstname'){
                 feild = 'First Name';
             }else if(feild == 'Lastname'){
@@ -112,10 +113,14 @@
              messages.show();
            
         
-        var alert = (action == "delete" || action == "deleted" || action == "danger") ? "danger" : "success";
+        var alert = (action == "delete" || action == "deleted" || action == "danger" || alert == "danger") ? "danger" : "success";
         //action = (action == "delete" || action == "deleted") ? "Deleted" : action;
 
-        if (type == "success") {
+        if(custom_message && custom_message != ""){
+            successHtml = '<div class="alert alert-'+type+'">' +
+            '<strong>'+custom_message+'.</strong></div>';
+
+        }else if (type == "success") {
 
             successHtml = '<div class="alert alert-'+alert+'">' +
             '<strong>'+feild+' '+action+' Successfully.</strong></div>';

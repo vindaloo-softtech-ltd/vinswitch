@@ -37,6 +37,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/agentlist', [AgentController::class, 'agentlist'])->name('agentlist');     
     Route::get('/agentlistajax', [AgentController::class, 'agentlistajax']);
     Route::post('/agentlist_update_ajex', [AgentController::class, 'agentlist_update_ajex']);
+    
+    Route::post('/agent_add_ajex',[AgentController::class, 'agent_add_ajex']);
+    Route::post('/agent_cred_add_ajex',[AgentController::class, 'agent_cred_add_ajex']);
 
     // agentedit page
     Route::get('/agentedit/{id}', [AgentController::class, 'agentedit']);

@@ -33,7 +33,7 @@ class AgentController extends Controller
         $agent = Agent::orderBy('id', 'DESC');
         $activeagents = Agent::where('status', 'ACTIVE');
         $suspendedagents = Agent::where('suspended', 'YES'); 
-        
+        $response['billplan_list'] = BillPlan::get();        
         if($request->ajax()){
             if($request->search){
                 $search_key = $request->search;
@@ -123,8 +123,10 @@ class AgentController extends Controller
 
     // agentlist page
     public function agentlist_update_ajex(Request $request){
-        //return response()->json($request->all());
         $id = EncreptDecrept::decrept($request->id);
+        if(Agent::where("id", $id)->count() == 0){
+            return response()->json(["status" => "fail", "data" => "Record not exist", "error" => 0]);
+        }
         $columnindex = $request->columnindex;
         $value = $request->value;
         
@@ -143,6 +145,7 @@ class AgentController extends Controller
         }
 
         try {
+            $update["modified_at"] = date('Y-m-d H:i:s');
             $User_Update = Agent::where("id", $id)->update($update);
             if($User_Update){
                 return response()->json(["status" => "success", "data" => "Update Sucessfully ", "error" => 0]);
@@ -161,6 +164,9 @@ class AgentController extends Controller
         $id = EncreptDecrept::decrept($request->id);
         // $id = $id[0];
         $id = $id;
+        if(DB::table($request->table)->where("id", $id)->count() == 0){
+            return response()->json(["status" => "fail", "data" => "Record not exist", "error" => 0]);
+        }
 
         
         if($request->table == "agent"){
@@ -193,6 +199,7 @@ class AgentController extends Controller
             $update["city"] = $request->city;
             $update["postal_code"] = $request->postal_code;
             $update["company_name"] = $request->company_name;
+            $update["modified_at"] = date('Y-m-d H:i:s');
             // dd($update);
             $User_Update = Agent::where("id", $id)->update($update);
 
@@ -212,6 +219,7 @@ class AgentController extends Controller
             $update["lastname"] = $request->lastname_user;
             // $update["email"] = $request->email;
             $update["phoneno"] = $request->contact_no_user;
+            $update["updated_at"] = date('Y-m-d H:i:s');
             // dd($update);
             $User_Update = User::where('role','AGENT')->where("tenant_id", $id)->update($update);
 
@@ -226,6 +234,111 @@ class AgentController extends Controller
         } catch (\Exception $e) {
             return response()->json(["status" => "fail", "data" => "Record not found", "error" => $e->getMessage()]);            
         }       
+    }
+
+    // agentlist page
+    // add new agent model Information tab
+    public function agent_add_ajex(Request $request){
+        
+        
+        return response()->json(["status" => "success", "data" => "Update Sucessfully", "error" => 0]);
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required|min:3',
+            'lastname' => 'required|min:3',
+            'email' => 'required|email',
+            'contact_no' => 'required|digits:10',
+            'address' => 'required|min:5',
+            'country' => 'required|min:2',
+            'state' => 'required|min:2',
+            'city' => 'required|min:2',
+            'postal_code' => 'required|min:5',
+            'company_name' => 'required|min:3'             
+        ]);
+        if ($validator->fails()) {
+            $data_responce = ["status" => "danger", "data" => "Validation error","error" => $validator->messages()];
+            return response()->json($data_responce, 200);
+        }
+
+        $update["account_code"] = "";
+        
+        $update["firstname"] = $request->firstname;
+        $update["lastname"] = $request->lastname;
+        $update["email"] = $request->email;
+        $update["contact_no"] = $request->contact_no;
+        $update["address"] = $request->address;
+        $update["country"] = $request->country;
+        $update["state"] = $request->state;
+        $update["city"] = $request->city;
+        $update["postal_code"] = $request->postal_code;
+        $update["company_name"] = $request->company_name;
+        
+        try {            
+            if($request->id == 0){
+                $update["join_date"] = date("Y-m-d");
+                $add_agent = Agent::create($update);
+                if($inserted_id = $add_agent->id){
+                    return response()->json(["status" => "success", "data" => $inserted_id, "error" => 0]);
+                }
+            }else{
+                $update["modified_at"] = date('Y-m-d H:i:s');
+                Agent::where("id", $request->id)->update($update);
+                return response()->json(["status" => "success", "data" => "Update Sucessfully", "error" => 0]);
+            }
+
+                            
+            return response()->json(["status" => "fail", "data" => "Something wrong", "error" => 0]);
+        
+        } catch (\Exception $e) {
+            return response()->json(["status" => "fail", "data" => "Record not found", "error" => $e->getMessage()]);            
+        }
+        
+
+    }
+
+    // agentlist page
+    // add new user model Credential tab
+    public function agent_cred_add_ajex(Request $request){
+        
+        // dd($request->all());
+        return response()->json(["status" => "success", "data" => 50, "error" => 0]);
+        $validator = Validator::make($request->all(), [
+            'firstname_user' => 'required|min:3',
+            'lastname_user' => 'required|min:3',
+            'email_user' => 'required|email',
+            'contact_no_user' => 'required|digits:10',                        
+        ]);
+        if ($validator->fails()) {
+            $data_responce = ["status" => "danger", "data" => "Validation error","error" => $validator->messages()];
+            return response()->json($data_responce, 200);
+        }   
+        $update["username"] = $request->firstname_user;
+        $update["firstname"] = $request->firstname_user;
+        $update["lastname"] = $request->lastname_user;
+        $update["email"] = $request->email_user;
+        $update["phoneno"] = $request->contact_no_user;     
+        
+        try {            
+            if($request->id == 0){
+                $update["join_date"] = date("Y-m-d");
+                $add_user = User::create($update);
+                if($inserted_id = $add_user->id){
+                    return response()->json(["status" => "success", "data" => $inserted_id, "error" => 0]);
+                }
+            }
+            else{
+                $update["modified_at"] = date('Y-m-d H:i:s');
+                User::where("id", $request->id)->update($update);
+                return response()->json(["status" => "success", "data" => "Update Sucessfully".$request->id, "error" => 0]);
+            }
+
+                            
+            return response()->json(["status" => "fail", "data" => "Something wrong", "error" => 0]);
+        
+        } catch (\Exception $e) {
+            return response()->json(["status" => "fail", "data" => "Record not found", "error" => $e->getMessage()]);            
+        }
+        
+
     }
     // public function agentcomission(){        
     //     return view('user.agentcomission');
@@ -276,6 +389,9 @@ class AgentController extends Controller
 
     // agentedit page 
     public function agentedit($id, Request $request){
+        if(Agent::where("id", $id)->count() == 0){
+            return redirect('/agentlist');            
+        }
         // dd($id);
         $perpage = 3;
         $decrypted_id = EncreptDecrept::decrept($id);
@@ -315,8 +431,11 @@ class AgentController extends Controller
         
         $update[$columnindex] = $value;
         
-        // dd($id);
+        
         try {
+            if(AgentBillplan::where("id", $id)->count() == 0){
+                return response()->json(["status" => "fail", "data" => "Record not exist", "error" => 0]);
+            }
             $User_Update = AgentBillplan::where("id", $id)->update($update);
             if($User_Update){
                 return response()->json(["status" => "success", "data" => "Update Sucessfully ", "error" => 0]);
@@ -361,9 +480,15 @@ class AgentController extends Controller
 
     public function deleteData($id,$table,Request $request){
         $id = EncreptDecrept::decrept($id);
-        
         $data['id'] = $id;
-        $data['table'] = $table;        
+        $data['table'] = $table;
+
+        if(DB::table($data['table'])->where("id", $id)->count() == 0){
+            return response()->json(["status" => "fail", "data" => "Record not exist", "error" => 0]);         
+        }
+        
+         
+              
         if($data['table'] == "agent_billplan"){
             $update['status'] = 'INACTIVE';
         }

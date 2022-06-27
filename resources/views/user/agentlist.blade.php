@@ -1,6 +1,12 @@
 @extends('layouts.mainLayout.main')
 @section('title', 'Agent List')
 @section('content')
+<style>
+    .modal-dialog {
+    max-width: 80%;
+   
+}
+</style>
 <input type="hidden" name="current_page" class="current_page" id="current_page" value="1">             
 
 <div class="col-lg-8 order-lg-1 order-2">
@@ -15,8 +21,9 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end">
-                        <button type="button" class="btn btn-success waves-effect waves-light me-1"><i class="mdi mdi-cog"></i></button>
-                        <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#custom-modal"><i class="mdi mdi-plus-circle me-1"></i> Add Agent</button>
+                        <!-- <button type="button" class="btn btn-success waves-effect waves-light me-1"><i class="mdi mdi-cog"></i></button> -->
+                        <a type="button" class="waves-effect waves-light add-new-agent" data-bs-toggle="modal" data-bs-target="#add-new-agent"><i class="mdi mdi-plus-circle h3 text-primary"></i></a>
+                        <!-- <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#custom-modal"><i class="mdi mdi-plus-circle me-1"></i> Add Agent</button> -->
                     </div>
                 </div><!-- end col-->
             </div>
@@ -90,7 +97,7 @@
                     <div class="text-sm-end text-center mt-2 mt-sm-0">
                         <a href="{{url('agentedit').'/'.$id}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
                         <!-- <a href="{{url('agentdelete').'/'.$id}}" class="action-icon"> <i class="mdi mdi-delete"></i></a> -->
-                        <a class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                        <a class="action-icon"> <i class="fas fa-link fa-sm"></i></a>
                     </div>
                 </div> <!-- end col-->
             </div> <!-- end row -->
@@ -147,7 +154,437 @@
 
         </div>
     </div> <!-- end card-->
-</div> <!-- end col -->               
+</div> <!-- end col -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="add-new-agent" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h4 class="modal-title" id="myCenterModalLabel">Add New Billplan</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body p-4">
+            <div class="card">
+            <div class="card-body">
+                <ul class="nav nav-pills nav-fill navtab-bg">
+                    <li class="nav-item">
+                        <a href="#personal" data-bs-toggle="tab" aria-expanded="true" class="nav-link active">
+                            Information
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#cred" aria-expanded="false" class="nav-link ">
+                            Credential
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#bill"  aria-expanded="false" class="nav-link">
+                            Billing
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="personal">
+
+                        <form class="needs-validation1 was-validated1" id="agentaddform" novalidate>
+                            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}" />
+                            <input type="hidden" name="agentaddid" id="agentaddid" value="0" />
+                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle me-1"></i> Personal Info</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+
+                                        <label for="forfirstname" class="form-label">First Name</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                                            <input type="text" class="form-control" id="firstname" placeholder="First Name" value="" minlength="3" required>
+                                            <div class="invalid-tooltip firstname">
+                                                Please Enter valid First Name.
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="forlastname" class="form-label">Last Name</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                                            <input type="text" class="form-control" id="lastname" placeholder="Last Name" value="" minlength="3" required>
+                                            <div class="invalid-tooltip lastname">
+                                                Please Enter valid Last Name.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="foremail" class="form-label">Email</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                            <input type="text" class="form-control" id="email" placeholder="Email" value="">
+                                            <div class="invalid-tooltip email">
+                                                Please Enter valid Last Name.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="forcontact_no" class="form-label">Phone</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                                            <input type="text" class="form-control" id="contact_no" placeholder="Phone" value="" minlength="10" required>
+                                            <div class="invalid-tooltip contact_no">
+                                                Please Enter valid Phone Number.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+
+                           
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="foraddress" class="form-label">Address</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-home"></i></span>
+                                            <textarea class="form-control" id="address" placeholder="Address"></textarea minlength="5" required>
+                                            <div class="invalid-tooltip address">
+                                                Please Enter valid Address.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div> <!-- end row -->
+
+                            
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="forCountry" class="form-label">Country</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-city"></i></span>
+                                            <input type="text" class="form-control" id="country" placeholder="Country" value="">
+                                            <div class="invalid-tooltip country">
+                                                Please Enter valid Country.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="forstate" class="form-label">State</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+                                            <input type="text" class="form-control" id="state" placeholder="State" value="" minlength="2" required>
+                                            <div class="invalid-tooltip state">
+                                                Please Enter valid State.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div> <!-- end row -->
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="forcity" class="form-label">City</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-map-signs"></i></span>
+                                            <input type="text" class="form-control" id="city" placeholder="City" value="" minlength="2" required>
+                                            <div class="invalid-tooltip city">
+                                                Please Enter valid City.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="forzipcode" class="form-label">Zipcode</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-qrcode"></i></span>
+                                            <input type="text" class="form-control" id="postal_code" placeholder="Zipcode" value="" minlength="6" required>
+                                            <div class="invalid-tooltip postal_code">
+                                                Please Enter valid Zipcode.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div> <!-- end row -->                    
+                            
+                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-office-building me-1"></i> Company Info</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="forcompany_name" class="form-label">Company Name</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class=" far fa-building"></i></span>
+                                            <input type="text" class="form-control" id="company_name" placeholder="Company Name" value="">
+                                            <div class="invalid-tooltip company_name">
+                                                Please Enter valid Company Name.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div> <!-- end row -->
+
+                            
+                            <div class="text-end">
+                                <span class="btn btn-success waves-effect waves-light mt-2 agentaddsubmit"><i class="mdi mdi-content-save"></i> Save</span>
+                            </div>
+                        </form>
+
+                    </div> <!-- end tab-pane -->
+                    <!-- end Information section content -->
+
+                    <div class="tab-pane" id="cred">
+
+                        <!-- cred box -->
+                        <form>
+                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle me-1"></i> Personal Info</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+
+                                        <label for="forfirstname_user" class="form-label">First Name</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                                            <input type="text" class="form-control" id="firstname_user" placeholder="First Name" value="">
+                                            <div class="invalid-tooltip firstname_user">
+                                                Please Enter valid First Name.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="forlastname_user" class="form-label">Last Name</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                                            <input type="text" class="form-control" id="lastname_user" placeholder="Last Name" value="">
+                                            <div class="invalid-tooltip lastname_user">
+                                                Please Enter valid Last Name.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="foremail_user" class="form-label">Email</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                            <input type="text" class="form-control" id="email_user" placeholder="Email" value="">
+                                            <div class="invalid-tooltip email_user">
+                                                Please Enter valid email.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="forcontact_no_user" class="form-label">Phone</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                                            <input type="text" class="form-control" id="contact_no_user" placeholder="Phone" value="">
+                                            <div class="invalid-tooltip contact_no_user">
+                                                Please Enter Phone Number.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="forusername" class="form-label">Username</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                            <input type="text" class="form-control" id="username" placeholder="Username" value="">
+                                            <div class="invalid-tooltip username">
+                                                Please Enter valid email.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="forpassword" class="form-label">Password</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                                            <input type="password" class="form-control" id="hori-pass1" placeholder="password" value="">
+                                            <div class="invalid-tooltip contact_no_user">
+                                                Please Enter Phone Number.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+                           
+                           
+
+                            
+                  
+                            
+                            <div class="text-end">
+                                <span class="btn btn-success waves-effect waves-light mt-2 credaddsubmit"><i class="mdi mdi-content-save"></i> Save</span>
+                            </div>
+                        </form>
+                        <!-- end cred box -->
+                       
+                    </div>
+                    <!-- end Credential content-->
+                    
+                    <div class="tab-pane" id="bill">
+                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle"></i> Plan Detail  </h5>
+
+                        <div class="row align-items-start mb-3 add-more-div">                           
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-primary add-more" ><i class="fe-plus text-white"></i></span>
+                                    <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
+                                    <select class="form-control billplan_id" name="billplan_id[]" required>
+                                        <option value="">Select Bill Plan</option>
+                                        @foreach($billplan_list as $plan)
+                                            <option value="{{$plan->id}}">{{$plan->name}}</option>
+                                        @endforeach                                        
+                                    </select>
+                                    <div class="invalid-tooltip">
+                                        Please choose a plan.
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-percentage"></i></span>
+                                    <input type="text" class="form-control commission_enter" name="commission_enter[]"  placeholder="Commission" aria-describedby="inputGroupPrepend" required="">
+                                    <div class="invalid-tooltip">
+                                    Please enter commission.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="add-more-html"style="display:none">
+
+                            <div class="row align-items-start mb-3 add-more-div-count">                           
+                                <div class="col">
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-danger add-more-remove" ><i class="fe-minus text-white"></i></span>
+                                        <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
+                                        <select class="form-control billplan_id" name="billplan_id[]" required>
+                                            <option value="">Select Bill Plan</option>
+                                            @foreach($billplan_list as $plan)
+                                                <option value="{{$plan->id}}">{{$plan->name}}</option>
+                                            @endforeach                                        
+                                        </select>
+                                        <div class="invalid-tooltip">
+                                            Please choose a plan.
+                                        </div>
+                                    </div>
+                                </div>                            
+                                <div class="col">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-percentage"></i></span>
+                                        <input type="text" class="form-control commission_enter" name="commission_enter[]"  placeholder="Commission" aria-describedby="inputGroupPrepend" required="">
+                                        <div class="invalid-tooltip">
+                                        Please enter commission.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                         
+
+                        </div>
+                        
+
+
+
+
+
+                      
+
+
+                        @if(isset($billplan))                       
+                        <input type="hidden" name="bill_plan" id="bill_plan" class="bill_plan" value="agent_billplan" />
+                        <div class="table-responsive border-0">
+                            <table class="table table-borderless mb-0 table-centered dt-responsive nowrap w-100">
+                                
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Commission(%)</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="planlistrow">
+                                    <?php
+                                        // echo "<pre>";
+                                        // print_r(count($billplan));
+                                        // echo "</pre>";
+                                        $i=0;
+                                    ?>
+                                   
+                                    @foreach($billplan as $record)
+                                    @php
+                                        $id = App\Providers\EncreptDecrept::encrept($record['agent_billplan_id']);
+                                    @endphp                                
+                                        <tr id="billplanrow{{$id}}">
+                                            <td>{{++$i}} </td>
+                                            <td>{{$record['name']}}</td>
+                                            <td>{{$record['type']}}</td>                                            
+                                            <td> <span class="edit-inline-ajex" data-index="commission" data-id="{{$id}}">{{$record['commission']}}</span></td>
+                                            <td><a class="float-end text-danger delete" data-id="{{$id}}" title="Delete BillPlan" ><i class="fa fa-trash"></i></a></td>
+                                        </tr>
+                                    @endforeach
+                                    
+                                </tbody>
+                            </table>
+                            <div class="text-center my-4">
+                                <a href="javascript:void(0);" class="text-danger loding" style="display:none"><i class="mdi mdi-spin mdi-loading me-1"></i> Load more </a>
+                            </div>
+                        </div>                        
+                        @endif
+                    </div>
+                    <!-- end Bill plan content-->
+
+                </div> <!-- end tab-content -->
+            </div>
+        </div> <!-- end card-->
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
                                                    
 <script>    
 $(document).ready( function () {
@@ -215,8 +652,20 @@ $(document).ready( function () {
 
                                     }  
                                     feild = "Suspended";                                   
+                                }
+                                if(result.status == 'danger' || result.status == 'fail'){
+                                    if(result.data == "Record not exist"){
+                                        toster("danger", "", "","Record not found");
+                                        setTimeout( function(){ 
+                                            location.reload();
+                                        }  , 3000 );
+                                    }else{
+                                        toster("danger", "", "","Something Wrong!");
+                                    }
+                                }else{
+                                    toster("success", feild, "updated");
                                 } 
-                                toster("success", feild, "updated");                              
+                                                              
                             }
                             loadMoreData(1,'update');
                         },         
@@ -246,7 +695,22 @@ $(document).ready( function () {
                         $(this).replaceWith(orignaltxt);                
                     }                
                 });
-                toster("success", columnindex, "Updated"); 
+                if(result.status == 'danger' || result.status == 'fail'){
+                    if(result.data == "Record not exist"){
+                        toster("danger", "", "","Record not found");
+                        setTimeout( function(){ 
+                            location.reload();
+                        }  , 3000 );
+                        
+                    }else{
+                        toster("danger", "", "","Something Wrong!");
+                    } 
+
+                }else{
+                    toster("success", columnindex, "Updated");
+                }
+                
+                 
             },           
         });
     });
@@ -335,7 +799,144 @@ $(document).ready( function () {
         new Chartist.Bar("#distributed-series1",data,option);
         
     }
-    chart();  
+    chart(); 
+    
+    // add new agent model
+    $("body").on("click", ".agentaddsubmit", function(){        
+    //   console.log("id = "+id);
+        var formData = {
+            id: $(this).data('id') ? $(this).data('id') : 0,
+            firstname: $("#firstname").val(),
+            lastname: $("#lastname").val(),
+            email: $("#email").val(),
+            contact_no: $("#contact_no").val(),                
+            address: $("#address").val(),
+            country: $("#country").val(),
+            state: $("#state").val(),
+            city: $("#city").val(),
+            postal_code: $("#postal_code").val(),
+            company_name: $("#company_name").val(),
+            table: "agent",
+            "_token":$("#token").val()
+        };            
+        $.ajax({            
+            url: base_url+'/agent_add_ajex',
+            method: "POST",
+            data:formData,
+            success: function(result){
+                var selector;
+                $(".border-danger").removeClass("border-danger");
+                $(".invalid-tooltip").hide();
+                if(result.error !=0){                        
+                        $.each(result.error, function(index, value){         
+                                                       
+                            $('#'+index).addClass("border-danger").show();
+                            $('.'+index).html(value).show();
+                        });
+
+                }else{
+                    $(".border-danger").removeClass("border-danger");
+                    $(".invalid-tooltip").hide();
+                                        
+                    if(result.status == 'danger' || result.status == 'fail'){
+                        // toster("danger", "Record", "Failed");
+                    }else{
+                        if(result.data > 0 || result.data != 'Update Sucessfully'){
+                            $(".agentaddsubmit").attr("data-id",result.data);
+                        }
+                        
+
+                        $(".nav-link").removeClass("active").attr("aria-expanded", "false");
+                        $(".tab-pane").removeClass("show").removeClass("active");
+                        $("#cred").addClass("show active");
+                        $(".nav-link[href='#cred']").addClass("active").attr("aria-expanded", "true").attr("data-bs-toggle", "tab");
+                        // toster("success", "Record", "Added"); href="#cred"
+                    }
+
+                }              
+            },           
+        });      
+        
+    });
+    // new credential add ajex code
+    $("body").on("click", ".credaddsubmit", function(){
+        // alert("cred submit");
+        var formData = {
+            id: $(this).data('id') ? $(this).data('id') : 0,
+            firstname_user: $("#firstname_user").val(),
+            lastname_user: $("#lastname_user").val(),
+            email_user: $("#email_user").val(),
+            contact_no_user: $("#contact_no_user").val(), 
+            agent_id: $(".agentaddsubmit").attr("data-id"),              
+            table: "user",
+            "_token":$("#token").val()
+        };            
+        $.ajax({            
+            url: base_url+'/agent_cred_add_ajex',
+            method: "POST",
+            data:formData,
+            success: function(result){
+                var selector;
+                $(".border-danger").removeClass("border-danger");
+                $(".invalid-tooltip").hide();
+                if(result.error !=0){                        
+                        $.each(result.error, function(index, value){         
+                                                       
+                            $('#'+index).addClass("border-danger").show();
+                            $('.'+index).html(value).show();
+                        });
+
+                }else{
+                    $(".border-danger").removeClass("border-danger");
+                    $(".invalid-tooltip").hide();
+                                        
+                    if(result.status == 'danger' || result.status == 'fail'){
+                        
+                    }else{
+                        
+                        if(result.data > 0 || result.data != 'Update Sucessfully'){
+                            
+                            $(".credaddsubmit").attr("data-id",result.data);
+                        }
+                        
+
+                        $(".nav-link").removeClass("active").attr("aria-expanded", "false");
+                        $(".tab-pane").removeClass("show").removeClass("active");
+                        $("#bill").addClass("show active");
+                        $(".nav-link[href='#bill']").addClass("active").attr("aria-expanded", "true").attr("data-bs-toggle", "tab");
+                        
+                    }
+
+                }              
+            },           
+        });
+        
+    }); 
+
+    // when cloase model - set default tab, remove data
+    $("#add-new-agent").on("hidden.bs.modal", function() {        
+        $(".agentaddsubmit").removeAttr("data-id");
+        $(".credaddsubmit").removeAttr("data-id");
+        $(".nav-link").removeClass("active").attr("aria-expanded", "false");
+        $(".tab-pane").removeClass("show").removeClass("active");
+        $("#personal").addClass("show active");
+        $(".nav-link[href='#personal']").addClass("active").attr("aria-expanded", "true");        
+    });
+
+    $('body').on('click', '.add-more', function() {
+        let addmorediv = $('.add-more-html').html();
+        $('.add-more-div').after(addmorediv);
+    });
+    $('body').on('click', '.add-more-remove', function() {
+        $(this).closest(".add-more-div-count").remove();
+       
+    });
+
+
+
+
+
+
 });
 </script>              
 @endsection
