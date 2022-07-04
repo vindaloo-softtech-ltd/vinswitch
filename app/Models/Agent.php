@@ -24,5 +24,5 @@ class Agent extends Model
         'postal_code',
         'status',
         'suspended'
-    ];
+    ]; 
 }

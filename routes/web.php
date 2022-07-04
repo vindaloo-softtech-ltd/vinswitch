@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\DidsController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -40,6 +41,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::post('/agent_add_ajex',[AgentController::class, 'agent_add_ajex']);
     Route::post('/agent_cred_add_ajex',[AgentController::class, 'agent_cred_add_ajex']);
+    Route::post('/agent_bill_plan_add_ajex',[AgentController::class, 'agent_bill_plan_add_ajex']);
 
     // agentedit page
     Route::get('/agentedit/{id}', [AgentController::class, 'agentedit']);
@@ -49,5 +51,9 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/agentcomission/{id}', [AgentController::class, 'agentcomission'])->name('agentcomission');
     Route::post('/agentcomissionajax/{id}', [AgentController::class, 'agentcomissionajax']);
+
+    
+    // dids page
+    Route::get('/did', [DidsController::class, 'dids']);
      
 });

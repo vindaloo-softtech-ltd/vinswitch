@@ -473,7 +473,7 @@
                                             <option value="{{$plan->id}}">{{$plan->name}}</option>
                                         @endforeach                                        
                                     </select>
-                                    <div class="invalid-tooltip">
+                                    <div class="invalid-tooltip billplan_id-error offset-2">
                                         Please choose a plan.
                                     </div>
                                 </div>
@@ -481,8 +481,8 @@
                             <div class="col">
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-percentage"></i></span>
-                                    <input type="text" class="form-control commission_enter" name="commission_enter[]"  placeholder="Commission" aria-describedby="inputGroupPrepend" required="">
-                                    <div class="invalid-tooltip">
+                                    <input type="text" class="form-control commission_enter commission" name="commission_enter[]"  placeholder="Commission" aria-describedby="inputGroupPrepend" required="">
+                                    <div class="invalid-tooltip commission-error offset-1">
                                     Please enter commission.
                                     </div>
                                 </div>
@@ -502,7 +502,7 @@
                                                 <option value="{{$plan->id}}">{{$plan->name}}</option>
                                             @endforeach                                        
                                         </select>
-                                        <div class="invalid-tooltip">
+                                        <div class="invalid-tooltip billplan_id-error offset-2">
                                             Please choose a plan.
                                         </div>
                                     </div>
@@ -510,8 +510,8 @@
                                 <div class="col">
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-percentage"></i></span>
-                                        <input type="text" class="form-control commission_enter" name="commission_enter[]"  placeholder="Commission" aria-describedby="inputGroupPrepend" required="">
-                                        <div class="invalid-tooltip">
+                                        <input type="text" class="form-control commission_enter commission" name="commission_enter[]"  placeholder="Commission" aria-describedby="inputGroupPrepend" required="">
+                                        <div class="invalid-tooltip commission-error offset-1">
                                         Please enter commission.
                                         </div>
                                     </div>
@@ -524,7 +524,9 @@
 
 
 
-
+                        <div class="text-end">
+                                <span class="btn btn-success waves-effect waves-light mt-2 billplanaddsubmit"><i class="mdi mdi-content-save"></i> Save</span>
+                            </div>
                       
 
 
@@ -841,6 +843,7 @@ $(document).ready( function () {
                     if(result.status == 'danger' || result.status == 'fail'){
                         // toster("danger", "Record", "Failed");
                     }else{
+                        // alert(result.data);
                         if(result.data > 0 || result.data != 'Update Sucessfully'){
                             $(".agentaddsubmit").attr("data-id",result.data);
                         }
@@ -864,6 +867,7 @@ $(document).ready( function () {
         var formData = {
             id: $(this).data('id') ? $(this).data('id') : 0,
             firstname_user: $("#firstname_user").val(),
+            password: $("#hori-pass1").val(),
             lastname_user: $("#lastname_user").val(),
             email_user: $("#email_user").val(),
             contact_no_user: $("#contact_no_user").val(), 
@@ -920,9 +924,10 @@ $(document).ready( function () {
         $(".nav-link").removeClass("active").attr("aria-expanded", "false");
         $(".tab-pane").removeClass("show").removeClass("active");
         $("#personal").addClass("show active");
-        $(".nav-link[href='#personal']").addClass("active").attr("aria-expanded", "true");        
+        $(".nav-link[href='#personal']").addClass("active").attr("aria-expanded", "true"); 
+        $(this).find("input,textarea,select").val('').find("input[type=checkbox], input[type=radio]").prop("checked", "");       
     });
-
+    $('#add-new-agent').modal({backdrop: 'static', keyboard: false}) 
     $('body').on('click', '.add-more', function() {
         let addmorediv = $('.add-more-html').html();
         $('.add-more-div').after(addmorediv);
@@ -931,7 +936,69 @@ $(document).ready( function () {
         $(this).closest(".add-more-div-count").remove();
        
     });
+    
+    $('body').on('click', '.billplanaddsubmit', function() {
+        let billplan_id = [];
+        let commission = [];
+        $('.billplan_id').each(function(){
+            billplan_id.push($(this).val());
+        });
+        $('.commission_enter').each(function(){
+            commission.push($(this).val());
+        });
+        billplan_id.pop();
+        commission.pop();
+        // console.log(billplan_id);
+        // console.log(commission);
+        // console.log($(".agentaddsubmit").data('id'));
+        var formData = {
+            agent_id: $(".agentaddsubmit").data('id') ? $(".agentaddsubmit").data('id') : 0,
+            billplan_id: billplan_id,
+            commission: commission,                         
+            table: "agent_billplan",
+            "_token":$("#token").val()
+        };            
+        $.ajax({            
+            url: base_url+'/agent_bill_plan_add_ajex',
+            method: "POST",
+            data:formData,
+            success: function(result){
+                $(".border-danger").removeClass("border-danger");
+                $(".invalid-tooltip").hide();
+                let i = 0;
+                var myString, index, indexid, indexvalue,feild1,feild2,message;
+                if(result.error !=0){                        
+                        $.each(result.error, function(index, value){ 
+                            myString = index.split(".");
+                            indexvalue = myString[0];
+                            indexid = parseInt(myString[1]);
+                            feild1 = "."+indexvalue;
+                            feild2 = "."+indexvalue+"-error";
+                            message = value[0].replace(/\d+/g, '').replace('_id', '').replace('.', '');
+                            
+                            $("."+indexvalue).eq(indexid).addClass("border-danger");
+                            $("."+indexvalue+"-error").eq(indexid).show().html(message);
 
+                            
+                        });
+
+                }else{               
+                                        
+                    // if(result.status == 'danger' || result.status == 'fail'){
+                        //setTimeout(function() { toster("success", "Agent", "Added"); }, 4000);
+                    // }else{
+                        
+                        $('#add-new-agent').modal('hide');
+                        setTimeout(function() { toster("success", "Agent", "Added"); }, 4000);               
+                        
+                    // }
+                    
+                    
+                }              
+            },           
+        });
+       
+    });
 
 
 

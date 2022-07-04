@@ -29,6 +29,7 @@ class EncreptDecrept extends ServiceProvider
     }
     // refarance link https://github.com/vinkla/hashids
     public function encrept($id){
+        return $id;
         $hashids = new Hashids('', 10);
 
         return $hashids->encode($id);
@@ -37,8 +38,12 @@ class EncreptDecrept extends ServiceProvider
     }
 
     public function decrept($id){
+        return $id;
         $hashids = new Hashids('', 10);
 
-        return $hashids->decode($id);
+        $id_de = $hashids->decode($id);
+        // dd($id_de);
+        return (isset($id_de) && isset($id_de[0])) ? $id_de[0] : $id_de;
+        
     }
 }

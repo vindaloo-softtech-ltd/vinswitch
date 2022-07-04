@@ -23,11 +23,19 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',        
-        'sipusername',
-        'sippassword',
-        'sipdomainname',
-        'status'
-
+        'tenant_id',
+        'username',
+        'role',
+        'status',
+        'firstname',
+        'lastname',
+        'phoneno',
+        'forgotpasswordkey',
+        'create_at',
+        'lastvisit_at',
+        'superuser',
+        'updated_at',
+        'created_at'
     ];
 
     /**
