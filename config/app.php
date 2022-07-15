@@ -177,6 +177,7 @@ return [
         'Tymon\JWTAuth\Providers\LaravelServiceProvider',
         XmlResponse\XmlResponseServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
         // Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
     ],

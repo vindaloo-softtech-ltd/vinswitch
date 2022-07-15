@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\DidsController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TenantController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +31,8 @@ Route::get('resetPassword/{id}', [UserController::class, 'resetPasswordForm'])->
 Route::post('resetPassword', [UserController::class, 'resetPassword'])->name('resetPassword');
 
 Route::middleware(['auth'])->group(function () {
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UsersController::class);
      Route::get('logout', [UserController::class, 'logout'])->name('logout');
      Route::get('dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
@@ -53,7 +58,22 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/agentcomissionajax/{id}', [AgentController::class, 'agentcomissionajax']);
 
     
-    // dids page
-    Route::get('/did', [DidsController::class, 'dids']);
+    // dids page 
+    Route::get('/dids', [DidsController::class, 'dids'])->name('dids');
+    Route::post('/phone_add_ajex', [DidsController::class, 'phone_add_ajex']);
+    Route::post('/importinsert', [DidsController::class, 'importinsert']);
+
+    // customers page 
+    Route::get('/customers', [TenantController::class, 'customers'])->name('customers');
+
+    // 
+    Route::get('/customers/{id}', [AgentController::class, 'customersedit']);
+    Route::get('/customers/add_ajex', [AgentController::class, 'customersAddAjex']);
      
 });
+
+// Route::group(['middleware' => ['auth']], function() {
+//     Route::resource('roles', RoleController::class);
+//     Route::resource('users', UserController::class);
+//     Route::resource('products', ProductController::class);
+// });

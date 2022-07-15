@@ -767,7 +767,7 @@ $(document).ready( function () {
     });
     // search function 
     $("#search").on("keyup", function() {
-        page = 1;
+        // page = 1;
        
         if(($(this).val()).length > 2 || ($(this).val()).length == 0){
             $("#agentlistrow").text("");
@@ -984,14 +984,14 @@ $(document).ready( function () {
 
                 }else{               
                                         
-                    // if(result.status == 'danger' || result.status == 'fail'){
+                    if(result.status == 'danger' || result.status == 'fail'){
                         //setTimeout(function() { toster("success", "Agent", "Added"); }, 4000);
-                    // }else{
+                    }else{
                         
                         $('#add-new-agent').modal('hide');
                         setTimeout(function() { toster("success", "Agent", "Added"); }, 4000);               
                         
-                    // }
+                    }
                     
                     
                 }              

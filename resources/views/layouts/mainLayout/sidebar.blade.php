@@ -14,5 +14,17 @@
                 <span> Agents </span>
             </a>
         </li>
+        <li>
+            <a href="{{route('dids')}}">
+                <i data-feather="users"></i>
+                <span> Dids </span>
+            </a>
+        </li>
+        <li>
+            <a href="{{route('customers')}}">
+                <i data-feather="users"></i>
+                <span> Customers </span>
+            </a>
+        </li>
     </ul>
 </div>

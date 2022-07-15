@@ -121,7 +121,7 @@
             <div class="card-body">
                 <ul class="nav nav-pills nav-fill navtab-bg">
                     <li class="nav-item">
-                        <a href="#personal" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
+                        <a href="#personal" data-bs-toggle="tab" aria-expanded="true" class="nav-link active">
                             Information
                         </a>
                     </li>
@@ -131,13 +131,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#bill" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                        <a href="#bill" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
                             Billing
                         </a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane" id="personal">
+                    <div class="tab-pane show active" id="personal">
                         @if($agent)
                         <form class="needs-validation1 was-validated1" novalidate>
                             <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle me-1"></i> Personal Info</h5>
@@ -389,7 +389,7 @@
                     </div>
                     <!-- end Credential content-->
                     
-                    <div class="tab-pane show active" id="bill">
+                    <div class="tab-pane" id="bill">
                         <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle"></i> Plan Detail  <span class="waves-effect waves-light float-end bg-primary rounded-circle" data-bs-toggle="modal" data-bs-target="#add-plan"><i class="fe-plus text-white h4"></i> </apan></h5>
                         
                         @if($billplan)

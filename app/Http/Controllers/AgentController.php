@@ -26,10 +26,17 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class AgentController extends Controller
 {
 
+    function __construct()
+    {
+        //  $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['agentlist','show']]);
+        //  $this->middleware('permission:product-create', ['only' => ['create','store']]);
+        //  $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
+        //  $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+    }
     // agentlist page
     public function agentlist(Request $request)
     {
-        $perpage = 2;
+        $perpage = 4;
         $agent = Agent::orderBy('id', 'DESC');
         $activeagents = Agent::where('status', 'ACTIVE');
         $suspendedagents = Agent::where('suspended', 'YES');
@@ -271,6 +278,9 @@ class AgentController extends Controller
             if ($request->id == 0) {
                 $update["join_date"] = date("Y-m-d");
                 $add_agent = Agent::create($update);
+
+                $role[] = 'AGENT';
+                $add_agent->assignRole($role);
                 if ($inserted_id = $add_agent->id) {
                     return response()->json(["status" => "success", "data" => $inserted_id, "error" => 0]);
                 }
