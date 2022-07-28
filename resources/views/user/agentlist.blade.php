@@ -162,7 +162,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-light">
-                <h4 class="modal-title" id="myCenterModalLabel">Add New Billplan</h4>
+                <h4 class="modal-title" id="myCenterModalLabel">Add New Agent</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <div class="modal-body p-4">
@@ -658,9 +658,9 @@ $(document).ready( function () {
                                 if(result.status == 'danger' || result.status == 'fail'){
                                     if(result.data == "Record not exist"){
                                         toster("danger", "", "","Record not found");
-                                        setTimeout( function(){ 
-                                            location.reload();
-                                        }  , 3000 );
+                                        // setTimeout( function(){ 
+                                           // location.reload();
+                                        // }  , 3000 );
                                     }else{
                                         toster("danger", "", "","Something Wrong!");
                                     }
@@ -700,9 +700,9 @@ $(document).ready( function () {
                 if(result.status == 'danger' || result.status == 'fail'){
                     if(result.data == "Record not exist"){
                         toster("danger", "", "","Record not found");
-                        setTimeout( function(){ 
-                            location.reload();
-                        }  , 3000 );
+                        // setTimeout( function(){ 
+                            //location.reload();
+                        // }  , 3000 );
                         
                     }else{
                         toster("danger", "", "","Something Wrong!");
@@ -767,9 +767,10 @@ $(document).ready( function () {
     });
     // search function 
     $("#search").on("keyup", function() {
-        // page = 1;
+        page = 1;
        
-        if(($(this).val()).length > 2 || ($(this).val()).length == 0){
+        // if(($(this).val()).length > 2 || ($(this).val()).length == 0){
+        if(($(this).val()).length > 2 ){
             $("#agentlistrow").text("");
             console.log("search call page :"+page);
             loadMoreData(page);

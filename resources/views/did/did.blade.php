@@ -292,7 +292,8 @@
         $("#search").on("keyup", function() {
             page = 1;
 
-            if (($(this).val()).length > 2 || ($(this).val()).length == 0) {
+            // if (($(this).val()).length > 2 || ($(this).val()).length == 0) {
+            if (($(this).val()).length > 2 ) {
                 $("#phonelistrow").text("");
                 console.log("search call page :" + page);
                 loadMoreData(page);

@@ -155,7 +155,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-light">
-                <h4 class="modal-title" id="myCenterModalLabel">Add New Billplan</h4>
+                <h4 class="modal-title" id="myCenterModalLabel">Add New Customer</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <div class="modal-body p-4">
@@ -762,7 +762,8 @@ $(document).ready( function () {
     $("#search").on("keyup", function() {
         page = 1;
        
-        if(($(this).val()).length > 2 || ($(this).val()).length == 0){
+        // if(($(this).val()).length > 2 || ($(this).val()).length == 0){
+        if(($(this).val()).length > 2){
             $("#customerrow").text("");
             console.log("search call page :"+page);
             loadMoreData(page);
