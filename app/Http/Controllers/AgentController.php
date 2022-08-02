@@ -445,12 +445,14 @@ class AgentController extends Controller
     // agentedit page 
     public function agentedit($id, Request $request)
     {
-        if (Agent::where("id", $id)->count() == 0) {
+        $perpage = 3;
+        $decrypted_id = EncreptDecrept::decrept($id);
+
+        if (Agent::where("id", $decrypted_id)->count() == 0) {
             return redirect('/agentlist');
         }
         // dd($id);
-        $perpage = 3;
-        $decrypted_id = EncreptDecrept::decrept($id);
+        
         // $id = $decrypted_id[0];
         $id = $decrypted_id;
         $response['agent'] = Agent::where('id', $id)->first();
