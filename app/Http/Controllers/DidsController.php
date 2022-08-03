@@ -22,13 +22,29 @@ class DidsController extends Controller
         $dids = $dids->leftjoin('vendor','did.vendor_id','vendor.id');
         $dids = $dids->leftjoin('tenant','did.account_number','tenant.account_number');
         $dids = $dids->select('did.*','vendor.vendor_name','tenant.company_name', 'did.id as id');
+
+        $allocatednumber = Did::where('did.status', 'ALLOCATED')->leftjoin('vendor','did.vendor_id','vendor.id')->leftjoin('tenant','did.account_number','tenant.account_number')->select('did.*','vendor.vendor_name','tenant.company_name', 'did.id as id');
+        $reservednumber = Did::where('did.status', 'RESERVED')->leftjoin('vendor','did.vendor_id','vendor.id')->leftjoin('tenant','did.account_number','tenant.account_number')->select('did.*','vendor.vendor_name','tenant.company_name', 'did.id as id');
+        $availablenumber = Did::where('did.status', 'AVAILABLE')->leftjoin('vendor','did.vendor_id','vendor.id')->leftjoin('tenant','did.account_number','tenant.account_number')->select('did.*','vendor.vendor_name','tenant.company_name', 'did.id as id');
+
         $vendor = Vendor::all();
         if ($request->ajax()) {
             if ($request->search) {
                 $search_key = $request->search;
                 $dids->where(function ($dids1) use ($search_key) {
                     $dids1 = $dids1->where('did.number', 'LIKE', "%{$search_key}%")->orWhere('tenant.company_name', 'LIKE', "%{$search_key}%")->orWhere('did.status', 'LIKE', "%{$search_key}%")->orWhere('vendor.vendor_name', 'LIKE', "%{$search_key}%");
-                });               
+                });
+                
+                $allocatednumber->where(function ($allocatednumber1) use ($search_key) {
+                    $allocatednumber1 = $allocatednumber1->where('did.number', 'LIKE', "%{$search_key}%")->orWhere('tenant.company_name', 'LIKE', "%{$search_key}%")->orWhere('did.status', 'LIKE', "%{$search_key}%")->orWhere('vendor.vendor_name', 'LIKE', "%{$search_key}%");
+                });
+
+                $reservednumber->where(function ($reservednumber1) use ($search_key) {
+                    $reservednumber1 = $reservednumber1->where('did.number', 'LIKE', "%{$search_key}%")->orWhere('tenant.company_name', 'LIKE', "%{$search_key}%")->orWhere('did.status', 'LIKE', "%{$search_key}%")->orWhere('vendor.vendor_name', 'LIKE', "%{$search_key}%");
+                });
+                $availablenumber->where(function ($availablenumber1) use ($search_key) {
+                    $availablenumber1 = $availablenumber1->where('did.number', 'LIKE', "%{$search_key}%")->orWhere('tenant.company_name', 'LIKE', "%{$search_key}%")->orWhere('did.status', 'LIKE', "%{$search_key}%")->orWhere('vendor.vendor_name', 'LIKE', "%{$search_key}%");
+                });
             }
         }
 
@@ -41,12 +57,22 @@ class DidsController extends Controller
             $view = view('user.data', $response_part)->render();
             $response_ajex['html'] = $view;            
 
-            $response_ajex['records'] = $response_part['records'];    
+            $response_ajex['records'] = $response_part['records'];
+            $response_ajex['allocatednumber'] = $allocatednumber->count();
+            $response_ajex['reservednumber'] = $reservednumber->count();
+            $response_ajex['availablenumber'] = $availablenumber->count();    
             return response()->json($response_ajex);
         }
 
+
         $response['records'] = $dids;
-        $response['vendor'] = $vendor;        
+        $response['vendor'] = $vendor;
+
+        $response['totalrecords'] = $dids->total();
+        $response['allocatednumber'] = $allocatednumber->count();
+        $response['reservednumber'] = $reservednumber->count();
+        $response['availablenumber'] = $availablenumber->count();      
+        // dd($response['availablenumber']);       
         return view('did.did', $response);
     }
     public function phone_add_ajex(Request $request){

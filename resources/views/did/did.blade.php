@@ -116,6 +116,51 @@
 
 </div> <!-- end col -->
 
+<div class="col-lg-4 order-lg-2 order-1 right-sidebar">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="header-title mb-3">Customers Statics</h4>
+
+            <div class="text-center" dir="ltr">
+                <div class="row mt-2">
+                    <div class="col-6">
+                        <h3 data-plugin="counterup" data-value="{{$totalrecords}}" class="totalrecords">{{$totalrecords}}</h3>
+                        <p class="text-muted font-13 mb-0 text-truncate">Total</p>
+                    </div>
+                    <div class="col-6">
+                        <h3 data-plugin="counterup" class="allocatednumber" data-value="{{$allocatednumber}}">{{$allocatednumber}}</h3>
+                        <p class="text-muted font-13 mb-0 text-truncate">Allocated</p>
+                    </div>
+                    <div class="col-6">
+                        <h3 data-plugin="counterup" class="reservednumber" data-value="{{$reservednumber}}">{{$reservednumber}}</h3>
+                        <p class="text-muted font-13 mb-0 text-truncate">Reserved</p>
+                    </div>
+                    <div class="col-6">
+                        <h3 data-plugin="counterup" class="availablenumber" data-value="{{$availablenumber}}">{{$availablenumber}}</h3>
+                        <p class="text-muted font-13 mb-0 text-truncate">Available</p>
+                    </div>
+                    
+                </div><br><br>
+                
+                
+                <div id="distributed-series-d" class="ct-chart ct-golden-section"  style="height: 280px;"></div>
+                <p class="text-muted font-15 font-family-secondary mb-0 mt-1 d-flex">
+                    <span class="mx-2"><i class="mdi mdi-checkbox-blank-circle text-blue"></i> T - Total</span>
+                    <span class="mx-2"><i class="mdi mdi-checkbox-blank-circle text-success"></i> A - Available</span>
+                </p>
+                <p class="text-muted font-15 font-family-secondary mb-0 mt-1 d-flex">
+                   
+                    <!-- <span class="mx-2"><i class="mdi mdi-checkbox-blank-circle text-warning"></i> S - Suspended</span> -->
+                    <span class="mx-2"><i class="mdi mdi-checkbox-blank-circle text-danger"></i> AL - Allocated</span>
+                    <span class="mx-2"><i class="mdi mdi-checkbox-blank-circle text-info float-left"></i> R - Reserved</span>
+                </p>
+                
+            </div>
+
+        </div>
+    </div> <!-- end card-->
+</div> <!-- end col -->
+
 <!-- class="modal fade" id="add-new-agent"  -->
 <!-- Modal -->
 <div class="modal fade" id="add-new-phone" tabindex="-1" role="dialog" aria-hidden="true">
@@ -265,7 +310,19 @@
                     if (data.html == "") {
                         $('.loding').html("No more Record Found!");
                         return;
-                    }
+                    }                   
+
+                    $('.totalrecords').text(data.totalrecords);
+                    $('.allocatednumber').text(data.allocatednumber);
+                    $('.reservednumber').text(data.reservednumber);
+                    $('.availablenumber').text(data.availablenumber);
+
+                    $('.totalrecords').data("value", data.totalrecords);
+                    $('.allocatednumber').data("value", data.allocatednumber);
+                    $('.reservednumber').data("value", data.reservednumber);
+                    $('.availablenumber').data("value",data.availablenumber);
+
+                    chart();
                     $('.loding').hide();
                     console.log("update = ", update);
                     if (!update) {
@@ -292,8 +349,8 @@
         $("#search").on("keyup", function() {
             page = 1;
 
-            // if (($(this).val()).length > 2 || ($(this).val()).length == 0) {
-            if (($(this).val()).length > 2 ) {
+            if (($(this).val()).length > 2 || ($(this).val()).length == 0) {
+            // if (($(this).val()).length > 2 ) {
                 $("#phonelistrow").text("");
                 console.log("search call page :" + page);
                 loadMoreData(page);
@@ -413,6 +470,35 @@
                
             }
         });
+
+        // chart
+        function chart(){
+            // alert("chart");
+            var data, option, total, allocatednumber, reservednumber, availablenumber;
+            total =  $(".totalrecords").data("value");
+            allocatednumber = $(".allocatednumber").data("value");
+            reservednumber = $(".reservednumber").data("value");
+            availablenumber = $(".availablenumber").data("value");
+            
+            // alert("total_agents = "+total_agents+", suspended_agents = "+suspended_agents+", active_agents"+active_agents);
+
+            data = {
+                // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: ["T", "A", "", "AL", "R"],
+                series: [total, availablenumber, '', allocatednumber, reservednumber]
+            }
+            option = { 
+                distributeSeries: !0,            
+                axisY: {
+                    onlyInteger: true
+                }                            
+            };
+            
+            new Chartist.Bar("#distributed-series-d",data,option);
+            
+        }
+        chart();
+
     });
 </script>
 @endsection

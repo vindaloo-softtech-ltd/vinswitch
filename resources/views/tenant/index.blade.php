@@ -117,15 +117,15 @@
                 <div class="row mt-2">
                     <div class="col-6">
                         <h3 data-plugin="counterup" data-value="{{$totalrecords}}" class="totalrecords">{{$totalrecords}}</h3>
-                        <p class="text-muted font-13 mb-0 text-truncate">Total Customers</p>
+                        <p class="text-muted font-13 mb-0 text-truncate">Total</p>
                     </div>
                     <div class="col-6">
                         <h3 data-plugin="counterup" class="activetenant" data-value="{{$activetenant}}">{{$activetenant}}</h3>
-                        <p class="text-muted font-13 mb-0 text-truncate">Active Customers</p>
+                        <p class="text-muted font-13 mb-0 text-truncate">Active</p>
                     </div>
                     <div class="col-6">
                         <h3 data-plugin="counterup" class="suspendedtenant" data-value="{{$suspendedtenant}}">{{$suspendedtenant}}</h3>
-                        <p class="text-muted font-13 mb-0 text-truncate">Suspended Customers</p>
+                        <p class="text-muted font-13 mb-0 text-truncate">Suspended</p>
                     </div>
                     
                 </div><br><br>
@@ -762,8 +762,8 @@ $(document).ready( function () {
     $("#search").on("keyup", function() {
         page = 1;
        
-        // if(($(this).val()).length > 2 || ($(this).val()).length == 0){
-        if(($(this).val()).length > 2){
+        if(($(this).val()).length > 2 || ($(this).val()).length == 0){
+        // if(($(this).val()).length > 2){
             $("#customerrow").text("");
             console.log("search call page :"+page);
             loadMoreData(page);
